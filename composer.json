@@ -1,50 +1,56 @@
 {
-    "name": "crebs86/acl-laravel",
-    "description": "A simple and complete Control Panel with ACL for Laravel 5.6",
-    "keywords": ["laravel", "acl", "control panel", "auth", "roles", "permission"],
-    "type": "project",
-    "require": {
-        "laravel/laravel": "5.6.*",
-        "php": "7.*"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Crebs86",
-            "email": "crebs.m@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-
-    "autoload":{
-        "classmap":[
-
-        ],
-        "psr-4":{
-            "Crebs86\\Acl\\": "src/"
-        }
-    },
-    "scripts":{
-        "post-create-project-cmd": [
-            "composer dumpautoload"
-        ],
-       	"install-acl-laravel":[
-	    	"composer dumpautoload",
-		    "php artisan vendor:publish --tag=first --force",
-		    "composer dumpautoload",
-		    "php artisan migrate",
-		    "php artisan db:seed",
-		    "php artisan vendor:publish --tag=second --force"
-	    ]
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Crebs86\\Acl\\AclProvider"
-            ],
-            "aliases": {
-                "Acl" : "Crebs86\\Acl\\Facades\\Acl"
-            }
-        }
+  "name": "crebs86/acl-laravel",
+  "description": "A simple and complete Control Panel with ACL for Laravel 5.6",
+  "keywords": [
+    "laravel",
+    "acl",
+    "control panel",
+    "auth",
+    "roles",
+    "permission"
+  ],
+  "homepage":"https://github.com/crebs86/acl-lavarel",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Crebs86",
+      "email": "crebs.m@gmail.com"
     }
+  ],
+  "require": {
+    "laravel/laravel": "5.6.*",
+    "php": "7.*"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "classmap": [
+    ],
+    "psr-4": {
+      "Crebs86\\Acl\\": "src/"
+    }
+  },
+  "scripts": {
+    "post-package-install": [
+      "composer dumpautoload"
+    ],
+    "install-acl-laravel":[
+      "composer dumpautoload",
+      "php artisan vendor:publish --tag=first --force",
+      "composer dumpautoload",
+      "php artisan migrate",
+      "php artisan db:seed",
+      "php artisan vendor:publish --tag=second --force"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Crebs86\\Acl\\AclProvider"
+      ],
+      "aliases": {
+        "Acl": "Crebs86\\Acl\\Facades\\Acl"
+      }
+    }
+  }
 }
