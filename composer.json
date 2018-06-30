@@ -1,6 +1,6 @@
 {
   "name": "crebs86/acl-laravel",
-  "description": "A simple and complete Control Panel with ACL for Laravel 5.6",
+  "description": "A simple and complete Control Panel with ACL for Laravel > 5.5",
   "keywords": [
     "laravel",
     "acl",
@@ -10,7 +10,7 @@
     "permission"
   ],
   "homepage":"https://github.com/crebs86/acl-lavarel",
-  "type": "project",
+  "type": "package",
   "license": "MIT",
   "authors": [
     {
@@ -19,7 +19,9 @@
     }
   ],
   "require": {
-    "laravel/laravel": "5.6.*",
+    "illuminate/console": "~5.0",
+    "illuminate/support": "~5.0",
+    "illuminate/cache": "~5.0",
     "php": "7.*"
   },
   "minimum-stability": "dev",
