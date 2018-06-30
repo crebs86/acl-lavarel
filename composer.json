@@ -5,7 +5,7 @@
     "type": "project",
     "require": {
         "laravel/laravel": "5.6.*",
-        "php": "7.2.*"
+        "php": "7.*"
     },
     "license": "MIT",
     "authors": [
@@ -27,7 +27,15 @@
     "scripts":{
         "post-create-project-cmd": [
             "composer dumpautoload"
-        ]
+        ],
+       	"install-acl-laravel":[
+	    	"composer dumpautoload",
+		    "php artisan vendor:publish --tag=first --force",
+		    "composer dumpautoload",
+		    "php artisan migrate",
+		    "php artisan db:seed",
+		    "php artisan vendor:publish --tag=second --force"
+	    ]
     },
     "extra": {
         "laravel": {
