@@ -18,9 +18,7 @@
     }
   ],
   "require": {
-    "illuminate/console": "~5.0",
-    "illuminate/support": "~5.0",
-    "illuminate/cache": "~5.0",
+    "laravel/laravel": ">=5.5*",
     "php": "7.*"
   },
   "minimum-stability": "dev",
