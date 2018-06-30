@@ -23,8 +23,7 @@
     "illuminate/cache": "~5.0",
     "php": ">=7.0.0"
   },
-  "minimum-stability": "dev",
-  "autoload": {
+    "autoload": {
     "classmap": [
     ],
     "psr-4": {
