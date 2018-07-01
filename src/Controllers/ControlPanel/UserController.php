@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 use Crebs86\Acl\Facades\Acl;
 use Illuminate\Support\Facades\Hash;
 use Crebs86\Acl\Request\Profile as ReqProfile;
-use Crebs86\Acl\Notifications\VerifyEmail;
 
 class UserController extends Controller
 {
@@ -33,7 +32,7 @@ class UserController extends Controller
 
     public function index()
     {
-        Acl::checkRoles(['user_manager', 'user_view'], false)->on();
+        Acl::check(['user_manager', 'user_view'], false)->on();
         $users = $this->user->all();
         $roles = User::select('role_user.user_id as roleuserid', 'roles.name as rolename', 'roles.id as roleid', 'users.name', 'role_id')
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
@@ -46,7 +45,7 @@ class UserController extends Controller
 
     public function view(Request $request)
     {
-        Acl::checkRoles(['user_manager', 'user_view'], false)->on();
+        Acl::check(['user_manager', 'user_view'], false)->on();
         //recupera usuário
         $user = User::find(Crypt::decryptString($request->id));
         //recupera papéis
@@ -59,7 +58,7 @@ class UserController extends Controller
     {
         $user_id = $request->id != null ? Crypt::decryptString($request->id) : auth()->user()->id;
         $user = $this->user->find($user_id);
-        Acl::checkRoles(['user_edit', 'user_manager'], false)->self($user->profile);
+        Acl::check(['user_edit', 'user_manager'])->self($user->profile);
         return view('crebs::control_panel.user.user_edit')
             ->with(['user' => $user, 'title' => Util::buildBreadCumbs([__('crebs::interface.users') => route('user-index'), $user->name => route('user-view', $request->id)], __('crebs::interface.edit'))]);
     }
@@ -71,7 +70,7 @@ class UserController extends Controller
      */
     public function editPassword(Request $request)
     {
-        Acl::checkRoles('user_manager', false)->on();
+        Acl::check('user_manager', false)->on();
         if (Crypt::decryptString($request->id) === Crypt::decryptString($request->_key)):
             $request->validate([
                 'password' => 'required|between:6,255|confirmed',
@@ -94,7 +93,7 @@ class UserController extends Controller
                 'user_mail' => 'required|between:6,255|email|unique:users,email,' . Crypt::decryptString($request->_key),
             ]);
             $user = $this->user->find(Crypt::decryptString($request->_key));
-            Acl::checkRoles(['user_edit', 'user_manager'], false)->self($user->profile);
+            Acl::check(['user_edit', 'user_manager'])->self($user->profile);
             $this->email_nochanged = $user->email === $request->user_mail;
 
             if ($this->email_nochanged):
@@ -136,7 +135,7 @@ class UserController extends Controller
      */
     public function editRoles(Request $request)
     {
-        Acl::checkRoles('acl_manager', false);
+        Acl::check('acl_manager', false);
         $user = $this->user->select('id', 'name')->find(Crypt::decryptString($request->id));
         return view('crebs::control_panel.user.user_edit_role')
             ->with(['user_id' => $request->id,
@@ -145,7 +144,7 @@ class UserController extends Controller
 
     public function editRolesFrame(Request $request, Role $role)
     {
-        Acl::checkRoles('acl_manager', false)->on();
+        Acl::check('acl_manager', false)->on();
         //recupera usuário
         $user = $this->user->find(Crypt::decryptString($request->user_id, env('APP_KEY')));
         //recupera papéis
@@ -182,7 +181,7 @@ class UserController extends Controller
     public function userShowRoles()
     {
         $user = $this->user->find(auth()->user()->id);
-        Acl::checkRoles(['user_view', 'user_manager'], false)->self($user->profile);
+        Acl::check(['user_view', 'user_manager'])->self($user->profile);
         return view('crebs::control_panel.user.user_show_roles')->with(['user' => $user, 'title' => Util::buildBreadCumbs(["{$user->name}" => ''], __('crebs::interface.roles'))]);
     }
 
@@ -200,7 +199,7 @@ class UserController extends Controller
     {
         $user_id = $request->id != null ? Crypt::decryptString($request->id) : auth()->user()->id;
         $user = User::where('id', $user_id)->first();
-        Acl::checkRoles(['user_edit', 'user_manager'], false)->self($user->profile);
+        Acl::check(['user_edit', 'user_manager'])->self($user->profile);
         return view('crebs::control_panel.user.user_edit_profile')->with(['user' => Auth::user(), 'profile' => $user->profile,
             'title' => Util::buildBreadCumbs([$user->name => route('user-view', Crypt::encryptString($user_id))], __('crebs::interface.edit_profile'))]);
     }
@@ -213,7 +212,7 @@ class UserController extends Controller
     {
         $user = $request->id != null ? Crypt::decryptString($request->id) : auth()->user()->id;
         $profile = Profile::where('user_id', $user)->first();
-        Acl::checkRoles(['user_edit', 'user_manager'], false)->self($profile);
+        Acl::check(['user_edit', 'user_manager'])->self($profile);
         $profile->branch_line = $request->branch_line;
         $profile->full_name = $request->full_name;
         $profile->address = $request->address;
@@ -232,10 +231,10 @@ class UserController extends Controller
      */
     public function userProfile(Request $request)
     {
-        Acl::checkRoles(['user_user', 'user_manager'], false)->on();
         $user_id = $request->user_id != null ? $request->user_id : auth()->user()->id;
         $user = User::where('id', $user_id)->first();//user
         $roles = $user->roles()->get();//roles
+        Acl::check(['user_view', 'user_manager'])->self($user->profile);
         return view('crebs::control_panel.user.user_view')
             ->with(['user' => $user, 'roles' => $roles,
                 'title' => Util::buildBreadCumbs([__('crebs::interface.users') => route('user-index')], $user->name)]);
@@ -301,7 +300,7 @@ class UserController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
         $user = Auth::user();
-        Acl::checkRoles(['user_edit', 'user_manager'], false)->self($user->profile);
+        Acl::check(['user_edit', 'user_manager'])->self($user->profile);
         $user->password = bcrypt($request->get('password'));
         $user->save();
         return redirect()->back()->with("success", __('crebs::cp-messages.change_pass_success'));
