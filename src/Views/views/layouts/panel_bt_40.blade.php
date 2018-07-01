@@ -26,7 +26,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         @if(auth()->user()->verified() || Acl::verified())
-            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+            <ul class="navbar-nav navbar-sidenav" id="accordion">
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <a class="nav-link" href="{{route('home')}}">
                         <i class="fa fa-fw fa-dashboard"></i>
@@ -47,11 +47,11 @@
                         </a>
                     </li>
                 @endcan
-                @if(auth()->user()->can('user_view') || auth()->user()->can('user_manager'))
+                @if(can(['user_view', 'user_manager'], false))
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
                         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
                            href="#collapseComponents"
-                           data-parent="#exampleAccordion">
+                           data-parent="#accordion">
                             <i class="fa fa-fw fa-users"></i>
                             <span class="nav-link-text">{{__('crebs::interface.users')}}</span>
                         </a>
@@ -62,7 +62,7 @@
                                     {{__('crebs::interface.list')}}
                                 </a>
                             </li>
-                            @if(auth()->user()->can('user_create') || auth()->user()->can('user_manager'))
+                            @if(can(['user_create', 'user_manager'], false))
                                 <li>
                                     <a class="nav-link-text" href="/register">
                                         <i class="fa fa-fw fa-user-plus"></i>
@@ -75,7 +75,7 @@
                 @endif
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti"
-                       data-parent="#exampleAccordion">
+                       data-parent="#accordion">
                         <i class="fa fa-fw fa-user-circle-o"></i>
                         <span class="nav-link-text">{{__('crebs::interface.account')}}</span>
                     </a>
@@ -114,12 +114,14 @@
                         </li>
                     </ul>
                 </li>
+                @if(can('system_manager', false))
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
                     <a class="nav-link" href="{{route('settings-index')}}">
                         <i class="fa fa-fw fa-wrench"></i>
                         <span class="nav-link-text">{{__('crebs::interface.settings')}}</span>
                     </a>
                 </li>
+                @endif
             </ul>
         @endif
         <ul class="navbar-nav sidenav-toggler">
@@ -328,5 +330,4 @@
     <script src="{{asset('vendor/crebs86/acl-laravel/panel/js/sb-admin.min.js')}}"></script>
 </div>
 </body>
-
 </html>
