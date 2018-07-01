@@ -1,5 +1,5 @@
 
-Fisrt register these services.
+Fisrt install the package.
 -
     composer require crebs86/acl-laravel
 Now run codes bellow:
