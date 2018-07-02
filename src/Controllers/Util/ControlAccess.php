@@ -61,8 +61,11 @@ class ControlAccess
         return $this;
     }
 
-
-    private function own($own){
+    /**
+     * @param $own
+     */
+    private function own($own)
+    {
         if ($this->valid === false):
             if (is_array($this->role)):
                 foreach ($this->role as $key => $value):
@@ -83,6 +86,10 @@ class ControlAccess
         $this->on();
     }
 
+    /**
+     * @param $own
+     * @return bool
+     */
     public function isOwn($own)
     {
         $this->own($own);
