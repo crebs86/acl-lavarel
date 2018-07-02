@@ -24,8 +24,7 @@
                             </div>
                         @endif
                         <form method="POST" action="{{ route('change-pass') }}">
-                            @csrf
-
+                            {{csrf_field()}}
                             <div class="form-group row">
                                 <label for="password_current"
                                        class="col-md-4 col-form-label text-md-right">{{ __('crebs::interface.pass-current') }}</label>
