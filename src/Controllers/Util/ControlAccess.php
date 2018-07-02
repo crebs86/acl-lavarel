@@ -38,7 +38,7 @@ class ControlAccess
      * @param bool $needIsSAdmin
      * @return $this
      */
-    public function checkRoles($roles, bool $needIsSAdmin = true)
+    public function check($roles, bool $needIsSAdmin = true)
     {
         $this->needIsAdmin = $needIsSAdmin;
         if (is_array($roles)):
@@ -61,6 +61,52 @@ class ControlAccess
         return $this;
     }
 
+
+    private function own($own){
+        if ($this->valid === false):
+            if (is_array($this->role)):
+                foreach ($this->role as $key => $value):
+                    $this->role[] = $value . $this->suffix;
+                endforeach;
+            endif;
+            $this->valid = $own->user_id === auth()->user()->id &&
+                $this->check($this->role, false)->get();
+        endif;
+    }
+
+    /**
+     * @param $own
+     */
+    public function self($own)
+    {
+        $this->own($own);
+        $this->on();
+    }
+
+    public function isOwn($own)
+    {
+        $this->own($own);
+        return $this->get();
+    }
+
+    /**
+     * check role
+     */
+    public function on()
+    {
+        if (!$this->valid):
+            abort($this->errorCode, $this->message);
+        endif;
+    }
+
+    /**
+     * @return bool
+     */
+    public function get()
+    {
+        return $this->valid;
+    }
+
     /**
      * @param string $role
      * @return bool
@@ -68,7 +114,7 @@ class ControlAccess
     private function functionCheck(string $role)
     {
         if (Gate::allows($role) && $this->needIsAdmin === true):
-            return auth()->user()->isSAdmin() === true;
+            return auth()->user()->isSAdmin() == true;
         elseif (Gate::allows($role)):
             return true;
         endif;
@@ -92,42 +138,6 @@ class ControlAccess
             if ($this->functionCheck($roles)):
                 $this->valid = true;
             endif;
-        endif;
-        $this->on();
-    }
-
-    /**
-     * check role
-     */
-    public function on()
-    {
-        if (!$this->valid):
-            abort($this->errorCode, $this->message);
-        endif;
-    }
-
-    /**
-     * @return bool
-     */
-    public function get()
-    {
-        return $this->valid;
-    }
-
-    /**
-     * @param $own
-     */
-    public function self($own)
-    {
-        if ($this->valid === false):
-
-            if (is_array($this->role)):
-                foreach ($this->role as $key => $value):
-                    $this->role[] = $value . $this->suffix;
-                endforeach;
-            endif;
-            $this->valid = $own->user_id === auth()->user()->id &&
-                $this->checkRoles($this->role, false)->get();
         endif;
         $this->on();
     }
@@ -177,6 +187,9 @@ class ControlAccess
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function verified()
     {
         $setting = new Setting();
