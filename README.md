@@ -111,5 +111,16 @@ On Blade files
     @else:
         <p>You don't have permission</p>
     @endif
+After installation
+-
+    http://localhost/login
+
+<strong>E-mail: super-admin@your.app
+
+Password: crebsacl</strong>
+
+You should change the email address and pass.
+    
+Tanks!    
     
 Tanks!
