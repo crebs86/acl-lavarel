@@ -1,6 +1,5 @@
 @extends('crebs::layouts.panel_bt_40')
 @section('content')
-    <link href="{{url('css/bootstrap.css')}}" rel="stylesheet">
     <div class="container bg-dark">
         <div class="row justify-content-center">
             <div class="col-sm-12">
