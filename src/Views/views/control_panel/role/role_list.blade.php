@@ -121,7 +121,9 @@
                                         <a href="{{route('role-edit', [ $role->name, Crypt::encryptString($role->id)])}}">
                                             <i class="glyphicon glyphicon-pencil"></i>
                                         </a>
-                                        <a href="" class="">
+                                        <a data-toggle="modal" data-target="#modal"
+                                           onclick="setaDadosModal('{{Crypt::encryptString($role->id)}}', '{{$role->name}}')"
+                                           title="{{__('crebs::interface.delete')}}">
                                             <i class="glyphicon glyphicon-trash text-danger"></i>
                                         </a>
                                     @endif
@@ -132,4 +134,32 @@
                     </tbody>
                 </table>
     </div>
+    @can('acl_manager')
+        <div id="modal" tabindex="-1" role="dialog" aria-labelledby="labelDelete" aria-hidden="true"
+             class="modal fade">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <p>{!! __('crebs::interface.role_delete_quest')!!}</p>
+                            <form id="modalDelete" method="post"
+                                  action="{{route('role-delete')}}">
+                                {{csrf_field()}}
+                                <input type="hidden" name="id" id="id">
+                                <input type="submit" class="btn btn-danger" value="{{__('crebs::interface.delete')}}">
+                                <a class="btn btn-primary text-white" value="{{__('crebs::interface.cancel')}}"
+                                   data-dismiss="modal">{{__('crebs::interface.cancel')}}</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function setaDadosModal(id, name) {
+                document.getElementById('id').value = id;
+                document.getElementById('permission').innerHTML = name;
+            }
+        </script>
+    @endcan
 @endsection
