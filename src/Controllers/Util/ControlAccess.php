@@ -161,7 +161,7 @@ class ControlAccess
             $roleSet->name == 'super-admin' && !\Illuminate\Support\Facades\Auth::user()->isSAdmin()):
             abort($this->errorCode);
         endif;
-        Acl::checkRoles($role, $needIsSAdmin);
+        Acl::check($role, $needIsSAdmin);
     }
 
     /**
