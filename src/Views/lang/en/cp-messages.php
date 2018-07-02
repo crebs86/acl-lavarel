@@ -13,8 +13,10 @@ return [
     "active_account_error"=>"Your account must be active to login. Contact the administrator for more information.",
     "active_account_autologout"=>"This account has been deactivated. Contact the administrator for more information.",
     "no_have_access"=>"Your account must be validated to continue.",
+
     "admin_mail_check"=>"A email verification was send to e-mail :email",
     "user_mail_check"=>"A email verification was send to you account e-mail. Please verify account :email",
+    "user_register_no_mail_check"=>"This account was created successfully",
 
     'profile_created'=>'Profile created successfully',
     'profile_edited'=>'Profile edited successfully',
