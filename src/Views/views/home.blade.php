@@ -28,7 +28,7 @@
                             </a>
                             <form id="resend-form" action="{{ route('user-confirm-mail-resend') }}" method="POST"
                                   style="display: none;">
-                                @csrf
+                                {{csrf_field()}}
                             </form>
                         @endif
                     </div>
