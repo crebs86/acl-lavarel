@@ -101,6 +101,7 @@ return [
     'view_permissions_role' => 'View permissions on Role: :role_name',
     'role_edit_permissions' => 'Edit permissions',
     'edit_permissions_role' => 'Editing permissions on role <span class="font-weight-bold text-danger">:rolename</span>',
+    'role_delete_quest' => 'You really delete the role <span class="font-weight-bold" id="permission"></span>?',
 
     'role_edit_form_title' => 'Edit Role',
     'role_name' => 'role_name',
