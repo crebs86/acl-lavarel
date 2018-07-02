@@ -24,6 +24,9 @@ class RoleController extends Controller
         $this->middleware('active');
     }
 
+    /**
+     * @return $this
+     */
     public function index()
     {
         Acl::can('acl_view', false);
@@ -40,23 +43,28 @@ class RoleController extends Controller
     {
         Acl::can('acl_view', false);
         $role = $this->role->where(['id' => Crypt::decryptString($request->id), 'name' => $request->name])->first();
-        if ($role !== null):
-            return view('crebs::control_panel.role.role_view')
-                ->with(['role' => $role, 'permissions' => $role->permissions, 'title' => Util::buildBreadCumbs([__('crebs::interface.roles') => route('role-index')], __('crebs::interface.view_permissions_role', ['role_name'=>$role->name]))]);
-        else:
-            abort(503);
-        endif;
+        return view('crebs::control_panel.role.role_view')
+            ->with(['role' => $role, 'permissions' => $role->permissions, 'title' => Util::buildBreadCumbs([__('crebs::interface.roles') => route('role-index')], __('crebs::interface.view_permissions_role', ['role_name' => $role->name]))]);
     }
 
+    /**
+     * @param ReqRole $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function new(ReqRole $request)
     {
+        Acl::can('acl_manager');
         $role = new Role();
         $role->name = $request->name;
         $role->label = $request->desc;
         $role->save();
-        return redirect(route('role-index'))->with(['message' => __('crebs::cp-messages.create_role_success', ['rolename'=>$role->name])]);
+        return redirect(route('role-index'))->with(['message' => __('crebs::cp-messages.create_role_success', ['rolename' => $role->name])]);
     }
 
+    /**
+     * @param Request $request
+     * @return $this
+     */
     public function edit(Request $request)
     {
         Acl::can('acl_manager');
@@ -65,18 +73,36 @@ class RoleController extends Controller
             ->with(['role' => $role, 'title' => Util::buildBreadCumbs(['Roles' => route('role-index'), $role->name => route('role-view', [$request->name, $request->id])], __('crebs::interface.edit'))]);
     }
 
+    /**
+     * @param ReqRole $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function editPost(ReqRole $request)
     {
-        Acl::checkRoles('acl_manager');
+        Acl::can('acl_manager');
         $role = $this->role->find(Crypt::decryptString($request->id));
-        if ($role != null):
-            $role->name = $request->name;
-            $role->label = $request->desc;
-            $role->save();
-        endif;
-        return redirect(route('role-index'))->with(['message' => __('crebs::cp-messages.edit_role_success', ['papel'=>$role->name])]);
+        $role->name = $request->name;
+        $role->label = $request->desc;
+        $role->save();
+        return redirect(route('role-index'))->with(['message' => __('crebs::cp-messages.edit_role_success', ['papel' => $role->name])]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(Request $request)
+    {
+        Acl::can('acl_manager');
+        $role = $this->role->find(Crypt::decryptString($request->id));
+        $role->delete();
+        return redirect(route('role-index'))->with(['message' => __('crebs::cp-messages.remove_role_success', ['rolename' => $role->name])]);
+    }
+
+    /**
+     * @param Request $request
+     * @return $this
+     */
     public function editPermissions(Request $request)
     {
         Acl::can('acl_manager');
@@ -105,6 +131,10 @@ class RoleController extends Controller
                 'title' => Util::buildBreadCumbs([], __('crebs::interface.roles'))]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function editPermissionFrameAddPost(Request $request)
     {
         Acl::can('acl_manager');
@@ -114,9 +144,13 @@ class RoleController extends Controller
             );
         }
         $permissionname = Permission::select('name')->find(Crypt::decryptString($request->permission));
-        return redirect(route('role-edit-permission-frame', [$request->name, $request->id]))->with(['message'=>__('crebs::cp-messages.role_add_permission', ['permissionname'=>$permissionname->name])]);
+        return redirect(route('role-edit-permission-frame', [$request->name, $request->id]))->with(['message' => __('crebs::cp-messages.role_add_permission', ['permissionname' => $permissionname->name])]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function editPermissionFrameRemovePost(Request $request)
     {
         Acl::can('acl_manager');
@@ -125,6 +159,6 @@ class RoleController extends Controller
         )->delete();
         $permissionname = Permission::select('name')->find(Crypt::decryptString($request->permission));
         return redirect(route('role-edit-permission-frame', [$request->name, $request->id]))
-            ->with(['message'=>__('crebs::cp-messages.role_remove_permission', ['permissionname'=>$permissionname->name])]);
+            ->with(['message' => __('crebs::cp-messages.role_remove_permission', ['permissionname' => $permissionname->name])]);
     }
 }
