@@ -52,3 +52,13 @@ if (!function_exists('isOwn')) {
         return $isOwn->check($permission)->isOwn($collection);
     }
 }
+if (!function_exists('requireValidEmail')) {
+    /**
+     * @return bool
+     */
+    function requireValidEmail()
+    {
+        $setting = new \Crebs86\Acl\Controllers\ControlPanel\Setting();
+        return $setting->getDBSettings(['validate_mail'])->cantDo();
+    }
+}
