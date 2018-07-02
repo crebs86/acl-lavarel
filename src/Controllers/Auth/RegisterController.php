@@ -5,6 +5,7 @@ namespace Crebs86\Acl\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -77,6 +78,13 @@ class RegisterController extends Controller
         $profile->sector = $data['sector'];
         $profile->full_name = $data['full_name'];
         $profile->save();
+
+        $role = array(
+            ['user_id' => $user->id, 'role_id' => '5']
+        );
+
+        DB::table('role_user')->insert($role);
+
         $user->sendVerificationEmail();
         return $user;
     }
@@ -87,9 +95,17 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
         if (auth()->check()):
-            return redirect('register')->with(["success" => __('crebs::cp-messages.admin_mail_check', ['email' => $request->email])]);
+            if (requireValidEmail()):
+                return redirect('register')->with(["success" => __('crebs::cp-messages.admin_mail_check', ['email' => $request->email])]);
+            else:
+                return redirect('register')->with(["success" => __('crebs::cp-messages.user_register_no_mail_check', ['email' => $request->email])]);
+            endif;
         endif;
-        return redirect(url('/login'))->with(["success" => __('crebs::cp-messages.user_mail_check', ['email' => $request->email])]);
+        if (requireValidEmail()):
+            return redirect(url('/login'))->with(["success" => __('crebs::cp-messages.user_mail_check', ['email' => $request->email])]);
+        else:
+            return redirect('register')->with(["success" => __('crebs::cp-messages.user_register_no_mail_check', ['email' => $request->email])]);
+        endif;
     }
 
     /**
