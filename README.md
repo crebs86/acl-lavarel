@@ -1,7 +1,7 @@
 
 Fisrt register these services.
 -
-On a fresh laravel (>=5.4) installation.
+On a fresh laravel "5.6.*" installation.
 
     composer require --dev crebs86/acl-laravel:dev-master
 Now run codes bellow:
