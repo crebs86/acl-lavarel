@@ -137,6 +137,8 @@ class User extends Authenticatable
      */
     public function sendVerificationEmail()
     {
-        $this->notify(new VerifyEmail($this));
+        if (requireValidEmail()):
+            $this->notify(new VerifyEmail($this));
+        endif;
     }
 }
