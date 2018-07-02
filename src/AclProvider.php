@@ -51,7 +51,7 @@ class AclProvider extends ServiceProvider
             __DIR__.'/Publish/Database/seeds' =>   database_path('/seeds')
         ], 'first');
         $this->publishes([
-            __DIR__.'/Publish/Config/config.php' => config_path('cre_acl.pbp')
+            __DIR__.'/Publish/Config/config.php' => config_path('cre_acl.php')
         ], 'first');
 
     }
