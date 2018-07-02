@@ -46,7 +46,7 @@ class Roles extends Seeder
              * --------------------------------------------------------- *
              */
 
-            ['name'=>'reviwer', 'label'=>'Edita, publica e libera publicações no sistema', 'created_at'=> now(), 'updated_at'=>now()],//3
+            ['name'=>'reviewer', 'label'=>'Edita, publica e libera publicações no sistema', 'created_at'=> now(), 'updated_at'=>now()],//3
             ['name'=>'publisher', 'label'=>'Realiza suas próprias publicações', 'created_at'=> now(), 'updated_at'=>now()],//4
             ['name'=>'user', 'label'=>'Usuário registrado, sem mais privilégios', 'created_at'=> now(), 'updated_at'=>now()],//5
             /*
