@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <title>{{getenv('APP_NAME')}} :: Painel de Controle</title>
     <!-- Bootstrap core CSS-->
-    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{asset('vendor/crebs86/acl-laravel/css/app.css')}}" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="{{asset('vendor/crebs86/acl-laravel/panel/vendor/font-awesome/css/font-awesome.min.css')}}"
           rel="stylesheet" type="text/css">
