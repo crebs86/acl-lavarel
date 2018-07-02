@@ -17,8 +17,7 @@
                         </div>
                     @endif
                     <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
+                        {{csrf_field()}}
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('crebs::interface.name') }}</label>
 
