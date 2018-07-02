@@ -46,7 +46,7 @@
                     <form action="{{ route('role-edit-permission-post-frame', [$role->name, Crypt::encryptString($role->id)]) }}"
                           method="POST"
                           style="display: none;" id="{{$permission->id}}">
-                        @csrf
+                        {{csrf_field()}}
                         <input type="text" name="permission" value="{{Crypt::encryptString($permission->id)}}"
                                style="display: none;">
                     </form>
@@ -77,7 +77,7 @@
                         <form action="{{ route('role-edit-permission-post', [$role->name, Crypt::encryptString($role->id)]) }}"
                               method="POST"
                               style="display: none;" id="{{$permission->id}}">
-                            @csrf
+                            {{csrf_field()}}
                             <input type="text" name="permission" value="{{Crypt::encryptString($permission->id)}}"
                                    style="display: none;">
                         </form>
