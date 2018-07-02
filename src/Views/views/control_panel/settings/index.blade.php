@@ -98,7 +98,7 @@
                         <div class="card-body">
                             <label for="active">Current settings:</label>
                             <form method="post" action="{{route('setting-active-setting')}}">
-                                @csrf
+                                {{csrf_field()}}
                                 <select name="active" id="active">
                                     <option value="{{Crypt::encryptString($setting->id)}}">{{$setting->label}}</option>
                                     @foreach($settings as $value)
@@ -109,7 +109,7 @@
                                 </select>
                             </form>
                             <form method="post" action="{{route('setting-post')}}">
-                                @csrf
+                                {{csrf_field()}}
                                 <input type="hidden" name="id" value="{{Crypt::encryptString($setting->id)}}">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="validate_mail"
