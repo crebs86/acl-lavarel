@@ -88,7 +88,7 @@ Similarly, you can use the helpers:
             
             public function methodRequireSuperAdminUser()
             {
-                if(can('permission_name', false)):
+                if(can('permission_name', true)):
                     //continue...
                 else:
                     abort(403,'Access Denied');
