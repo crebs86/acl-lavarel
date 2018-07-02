@@ -37,7 +37,7 @@
                     <strong>{{ $errors->first('user_mail') }}</strong>
                 </span>
                 @endif
-
+                @if(can(['user_edit', 'user_manager'], false))
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox"
                            name="active" id="active" {{$user->active == true ? 'checked' : ''}}>
@@ -48,6 +48,8 @@
                            name="verified" id="verified" {{$user->verified == true ? 'checked' : ''}}>
                     <label class="form-check-label" for="verified">{{__('crebs::interface.verified')}}</label>
                 </div>
+                @endif
+                <br>
                 <input type="submit" class="form-control btn btn-danger" value="{{__('crebs::interface.btn_save')}}">
             </div>
         </form>
