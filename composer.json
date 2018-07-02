@@ -1,6 +1,6 @@
 {
   "name": "crebs86/acl-laravel",
-  "description": "A simple and complete Control Panel with ACL for Laravel >= 5.6",
+  "description": "A simple and complete Control Panel with ACL for Laravel >= 5.5",
   "keywords": [
     "laravel",
     "acl",
@@ -19,9 +19,9 @@
     }
   ],
   "require": {
-    "illuminate/console": "~5.6",
-    "illuminate/support": "~5.6",
-    "illuminate/cache": "~5.6",
+    "illuminate/console": "~5.5",
+    "illuminate/support": "~5.5",
+    "illuminate/cache": "~5.5",
     "php": ">=7.0.0"
   },
     "autoload": {
