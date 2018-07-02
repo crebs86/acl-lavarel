@@ -113,7 +113,7 @@
                             </a>
                             <form action="{{ route('user-edit-role-frame-post', Crypt::encryptString($user->id)) }}"
                                   method="POST" style="display: none;" id="{{$role->id}}">
-                                @csrf
+                                {{csrf_field()}}
                                 <input type="text" name="role" value="{{$role->id}}" style="display: none;">
                             </form>
                         </td>
