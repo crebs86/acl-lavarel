@@ -3,7 +3,7 @@ Fisrt register these services.
 -
 On a fresh laravel ">=5.5.*" installation.
 
-    composer require crebs86/acl-laravel:dev-master
+    composer require crebs86/acl-laravel:0.9
 Now run codes bellow:
 -
 Step 1) Publish views and migrations
